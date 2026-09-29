@@ -1,5 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_clean_arch/data/datasources/auth_data_source.dart';
+import 'package:flutter_clean_arch/data/datasources/dio_client.dart';
 import 'package:flutter_clean_arch/data/models/user_model.dart';
 import 'package:flutter_clean_arch/data/repository_impl/repository_impl.dart';
 import 'package:flutter_clean_arch/domain/usecases/use_cases.dart';
@@ -9,17 +9,7 @@ import 'package:flutter_riverpod/legacy.dart';
 ///////////Presentation layer///////
 //ViewModel
 final loginUseCaseProvider = Provider<LoginUseCase>((ref) {
-  //Dio obj creation
-  final dio = Dio(
-    BaseOptions(
-      baseUrl: "https://dummyjson.com/",
-      connectTimeout: const Duration(seconds: 3),
-      sendTimeout: const Duration(seconds: 3),
-      receiveTimeout: const Duration(seconds: 3),
-    ),
-  );
-
-  final dataSource = AuthRemoteDataSource(dio);
+  final dataSource = AuthRemoteDataSource(dioClient);
   final repository = AuthRepositoryImpl(dataSource);
   return LoginUseCase(repository);
 });

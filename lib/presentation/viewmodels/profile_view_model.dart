@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_arch/data/datasources/dio_client.dart';
 import 'package:flutter_clean_arch/data/models/user_details_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
@@ -8,16 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Profile view model ///
 ///// Presentation layer //////
 final profileUsecaseProvider = Provider<ProfileUseCase>((ref) {
-  final dio = Dio(
-    BaseOptions(
-      baseUrl: "https://dummyjson.com",
-      receiveTimeout: const Duration(seconds: 3),
-      sendTimeout: const Duration(seconds: 3),
-      connectTimeout: const Duration(seconds: 3),
-    ),
-  );
-
-  final dataSource = ProfileDataSource(dio);
+  final dataSource = ProfileDataSource(dioClient);
   final repository = ProfileRepositoryImpl(dataSource);
 
   return ProfileUseCase(repository);

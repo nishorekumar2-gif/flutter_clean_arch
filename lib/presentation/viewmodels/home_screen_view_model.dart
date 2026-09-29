@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_clean_arch/data/datasources/dio_client.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_clean_arch/data/models/home_details_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,16 +7,7 @@ import 'package:flutter_riverpod/legacy.dart';
 
 ///Presentation layer
 final homeScreenUseCasesProvider = Provider<HomeScreenUseCases>((ref) {
-  Dio dio = Dio(
-    BaseOptions(
-      baseUrl: "https://dummyjson.com",
-      sendTimeout: const Duration(seconds: 3),
-      receiveTimeout: const Duration(seconds: 3),
-      connectTimeout: const Duration(seconds: 3),
-    ),
-  );
-
-  final dataSource = HomeDataSource(dio);
+  final dataSource = HomeDataSource(dioClient);
   final repository = HomeRepositoryImpl(dataSource);
 
   return HomeScreenUseCases(repository);

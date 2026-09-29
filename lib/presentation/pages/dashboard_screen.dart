@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_clean_arch/data/datasources/dio_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_arch/presentation/pages/home_screen.dart';
 import 'package:flutter_clean_arch/presentation/pages/profile_screen.dart';
@@ -38,8 +39,7 @@ class DashboardScreen extends ConsumerWidget {
 }
 
 Future<ProductDetails> getProductList() async {
-  Dio dio = Dio();
-  final response = await dio.get(
+  final response = await dioClient.get(
     "https://dummyjson.com/products",
     options: Options(headers: {"content-type": "application/json"}),
   );
@@ -52,14 +52,12 @@ Future<ProductDetails> addProduct(
   int productId,
   int quantity,
 ) async {
-  Dio dio = Dio();
-
   final product = {"id": productId, "quantity": quantity};
 
   final productList = [];
   productList.add(product);
 
-  final response = await dio.post(
+  final response = await dioClient.post(
     "https://dummyjson.com/carts/add",
     options: Options(
       headers: {"content-type": "applicaton/json"},

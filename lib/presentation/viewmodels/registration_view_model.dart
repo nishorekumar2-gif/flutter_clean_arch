@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_clean_arch/data/datasources/dio_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_arch/data/models/user_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,15 +9,7 @@ import 'package:flutter_riverpod/legacy.dart';
 
 ///////Presentation layer//////
 final registrationUseCaseProvider = Provider<RegistrationUseCase>((ref) {
-  final dio = Dio(
-    BaseOptions(
-      receiveTimeout: const Duration(seconds: 3),
-      sendTimeout: const Duration(seconds: 3),
-      connectTimeout: const Duration(seconds: 3),
-    ),
-  );
-
-  final registrationDataStore = RegistrationDataSource(dio);
+  final registrationDataStore = RegistrationDataSource(dioClient);
   final repository = RegistrationRepositoryImpl(registrationDataStore);
   return RegistrationUseCase(repository);
 });
