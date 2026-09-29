@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_clean_arch/presentation/pages/dashboard_screen.dart';
 import 'package:flutter_clean_arch/presentation/viewmodels/login_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -47,6 +48,16 @@ class LoginPageState extends ConsumerState<LoginPage> {
           next.user!.accessToken ?? '',
         );
         sharedPreferences.setInt("user_id", next.user!.id!);
+
+        final storage = FlutterSecureStorage();
+        await storage.write(key: 'access_token', value: next.user!.accessToken);
+        final secureData = await storage.read(key: 'access_token');
+        print("SecureData: $secureData");
+
+        await storage.write(key: 'user_name', value: next.user!.username);
+        final secureDataUserName = await storage.read(key: 'user_name');
+        print("SecureData Username: $secureDataUserName");
+
         Navigator.push(
           context,
           MaterialPageRoute(builder: (_) => DashboardScreen()),
