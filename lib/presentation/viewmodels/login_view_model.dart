@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_clean_arch/data/datasources/auth_data_source.dart';
 import 'package:flutter_clean_arch/data/datasources/dio_client.dart';
 import 'package:flutter_clean_arch/data/models/user_model.dart';
@@ -48,6 +49,32 @@ class LoginViewModel extends StateNotifier<LoginState> {
       state = state.copyWith(isLoading: false, error: null, user: user);
     } catch (ex) {
       state = state.copyWith(isLoading: false, error: "Login failed");
+    }
+  }
+}
+
+void cancelToken() {
+  try {
+    dioClient.get(
+      "/users",
+      cancelToken: CancelToken(),
+      queryParameters: {"limit": "50", "page": 1},
+    );
+  } on DioException catch (ex) {
+    if (ex.type == DioExceptionType.connectionTimeout) {
+      print("Connection timeout");
+    } else if (ex.type == DioExceptionType.receiveTimeout) {
+      print("Receieve timeout");
+    } else if (ex.type == DioExceptionType.sendTimeout) {
+      print("Send timeout");
+    } else if (ex.response!.statusCode == 400) {
+      print("400 - Bad request -  status code");
+    } else if (ex.response!.statusCode == 401) {
+      print("401 - UnAuthorized  -  status code");
+    } else if (ex.response!.statusCode == 404) {
+      print("404 - Page not found -  status code");
+    } else if (ex.response!.statusCode == 500) {
+      print("500 → Internal Server Error");
     }
   }
 }

@@ -172,36 +172,6 @@ class ProfileDataSource {
     return User.fromJson(response.data as Map<String, dynamic>);
   }
 }
-
-// class UserDetailsModel {
-//   final String? userId;
-//   final String? userName;
-//   final String? firstName;
-//   final String? lastName;
-//   final String? image;
-//   final String? email;
-
-//   UserDetailsModel({
-//     this.userId,
-//     this.userName,
-//     this.firstName,
-//     this.lastName,
-//     this.image,
-//     this.email,
-//   });
-
-//   factory UserDetailsModel.fromJson(Map<String, dynamic> json) {
-//     return UserDetailsModel(
-//       userId: json['userId']?.toString() ?? '',
-//       userName: json['userName']?.toString() ?? '',
-//       firstName: json['firstName']?.toString() ?? '',
-//       lastName: json['lastName']?.toString() ?? '',
-//       image: json['image']?.toString(),
-//       email: json['email']?.toString() ?? '',
-//     );
-//   }
-// }
-
 class ProfileRepositoryImpl extends ProfileRepository {
   final ProfileDataSource profileDataSource;
 

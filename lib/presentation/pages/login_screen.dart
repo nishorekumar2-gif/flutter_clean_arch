@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_arch/presentation/pages/dashboard_screen.dart';
 import 'package:flutter_clean_arch/presentation/viewmodels/login_view_model.dart';
@@ -73,88 +74,123 @@ class LoginPageState extends ConsumerState<LoginPage> {
 
     final state = ref.watch(loginViewModelProvider);
 
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 5.0,
-          children: [
-            Image.asset(
-              "assets/images/logo.png",
-              alignment: AlignmentGeometry.center,
-              width: 100,
-              height: 100,
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                textAlign: TextAlign.start,
-                "Username",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              ),
-            ),
-            TextField(
-              controller: usernameController,
-              /*onChanged: (val) {
-                print("Text Val: $val");
-              },*/
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.person),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
+    return LayoutBuilder(
+      builder: (context, constraint) {
+        return (constraint.maxWidth < 600)
+            ? Scaffold(
+                body: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 5.0,
+                    children: [
+                      Image.asset(
+                        "assets/images/logo.png",
+                        alignment: AlignmentGeometry.center,
+                        width: 100,
+                        height: 100,
+                      ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          textAlign: TextAlign.start,
+                          "Username",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      TextField(
+                        controller: usernameController,
+                        /*onChanged: (val) {
+                  print("Text Val: $val");
+                },*/
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.person),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          textAlign: TextAlign.start,
+                          "Password",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      TextField(
+                        controller: passwordController,
+                        obscureText: true,
+                        /*onChanged: (val) {
+                  print("Text Val: $val");
+                },*/
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.verified_user),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5)),
+                          ),
+                        ),
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          side: BorderSide(color: Colors.red, width: 3),
+                        ),
+                        onPressed: state.isLoading == true ? null : loginCall,
+                        child: Text(
+                          "Login",
+                          style: const TextStyle(
+                            color: Colors.red,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
+              )
+            : Scaffold(
+                body: Center(
+                  child: Theme.of(context).platform == TargetPlatform.android
+                      ? ElevatedButton(
+                          onPressed: () {},
+                          child: Text("It won't support for Tablet"),
+                        )
+                      : Theme.of(context).platform == TargetPlatform.iOS
+                      ? CupertinoButton(
+                          child: Text("It won't support for Tablet"),
+                          onPressed: () {},
+                        )
+                      : CupertinoButton(
+                          child: Text("It won't support for Tablet"),
+                          onPressed: () {},
+                        ),
                 ),
-              ),
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 5),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                textAlign: TextAlign.start,
-                "Password",
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-              ),
-            ),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              /*onChanged: (val) {
-                print("Text Val: $val");
-              },*/
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.verified_user),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                ),
-              ),
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                side: BorderSide(color: Colors.red, width: 3),
-              ),
-              onPressed: state.isLoading == true ? null : loginCall,
-              child: Text(
-                "Login",
-                style: const TextStyle(
-                  color: Colors.red,
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+              );
+      },
     );
   }
 }
