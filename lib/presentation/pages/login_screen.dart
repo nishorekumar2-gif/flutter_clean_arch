@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_clean_arch/presentation/pages/dashboard_screen.dart';
+import 'package:flutter_clean_arch/presentation/routes/app_routes.dart';
 import 'package:flutter_clean_arch/presentation/viewmodels/login_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -59,10 +60,12 @@ class LoginPageState extends ConsumerState<LoginPage> {
         final secureDataUserName = await storage.read(key: 'user_name');
         print("SecureData Username: $secureDataUserName");
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => DashboardScreen()),
-        );
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(builder: (_) => DashboardScreen()),
+        // );
+
+        Navigator.pushNamed(context, AppRoutes.dashboard);
       }
 
       if (next.error != null && next.error != previous?.error) {

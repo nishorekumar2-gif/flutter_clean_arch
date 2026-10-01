@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Shared HTTP client used by all data sources and direct API calls.
 final Dio dioClient =
@@ -16,8 +17,11 @@ final Dio dioClient =
       )
       ..interceptors.add(
         InterceptorsWrapper(
-          onRequest: (request, handler) {
-            request.headers["Authorization"] = "Bearer ";
+          onRequest: (request, handler) async {
+            final pref = await SharedPreferences.getInstance();
+            String? accessToken = pref.getString("access_token");
+            print("Preference : ${accessToken!}");
+            request.headers["Authorization"] = "Bearer $accessToken";
             print(
               "Request : ${request.uri} , ${request.data}, ${request.headers}",
             );
