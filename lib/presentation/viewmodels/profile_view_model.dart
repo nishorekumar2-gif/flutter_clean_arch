@@ -158,7 +158,7 @@ class ProfileDataSource {
   Future<User> getProfile(String userId) async {
     final sharedPreferences = await SharedPreferences.getInstance();
     final accessToken = sharedPreferences.getString("access_token");
-    print("Access Token Get: $accessToken");
+    print("Access Token Get in profile: $accessToken");
     final response = await dio.get(
       '/user/me',
       options: Options(
@@ -172,6 +172,7 @@ class ProfileDataSource {
     return User.fromJson(response.data as Map<String, dynamic>);
   }
 }
+
 class ProfileRepositoryImpl extends ProfileRepository {
   final ProfileDataSource profileDataSource;
 

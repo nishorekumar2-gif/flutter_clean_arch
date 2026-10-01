@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_clean_arch/presentation/pages/dashboard_screen.dart';
+import 'package:flutter_clean_arch/presentation/pages/home_screen.dart';
 import 'package:flutter_clean_arch/presentation/pages/login_screen.dart';
+import 'package:flutter_clean_arch/presentation/pages/splash_screen.dart';
+import 'package:flutter_clean_arch/presentation/routes/app_router.dart';
+import 'package:flutter_clean_arch/presentation/routes/app_routes.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 //import 'package:flutter_clean_arch/lib/presentation/pages/LoginPage.dart'
@@ -35,6 +40,12 @@ class MyApp extends StatelessWidget {
         colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
       home: LoginPage(),
+      initialRoute: AppRoutes.splashScreen,
+      onGenerateRoute: AppRouter.generateRoute,
+      // routes: {
+      //   AppRoutes.splashScreen: (context) => SplashScreen(),
+      //   AppRoutes.homeScreen: (context) => HomeScreen(),
+      // },
     );
   }
 }
